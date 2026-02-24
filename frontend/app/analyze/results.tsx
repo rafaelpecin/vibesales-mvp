@@ -6,7 +6,7 @@ export default function Results() {
   useEffect(() => {
     const url = localStorage.getItem("url")
 
-    fetch("http://localhost:8000/analyze", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/analyze`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url })
