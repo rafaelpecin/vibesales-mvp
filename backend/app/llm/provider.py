@@ -1,16 +1,24 @@
 import os
-from openai import OpenAI
+from google import genai
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = genai.Client(
+    api_key=os.getenv("GEMINI_API_KEY")
+)
+
+MODEL_NAME = "gemini-2.5-flash"
 
 
-def generate(prompt: str) -> str:
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are a senior SEO specialist."},
-            {"role": "user", "content": prompt},
-        ],
-        temperature=0.4,
+def generate(prompt: str, max_tokens: int = 2000) -> str:
+    response = client.models.generate_content(
+        model=MODEL_NAME,
+        contents=prompt,
+        config={
+            "temperature": 0.4,
+            "max_output_tokens": max_tokens,
+        },
     )
-    return response.choices[0].message.content
+
+    if not response or not response.text:
+        raise Exception("Gemini returned empty response")
+
+    return response.text.strip()

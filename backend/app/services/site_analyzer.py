@@ -23,7 +23,7 @@ def analyze_site(url: str) -> dict:
     word_count = len(text.split())
 
     try:
-        language = detect(text[:500])
+        language = detect(str(title) + str(h1) + str(h2))
     except Exception:
         language = None
 

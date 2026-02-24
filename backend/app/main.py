@@ -1,8 +1,11 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, HttpUrl
 
+
 from app.services.site_analyzer import analyze_site
 from app.services.seo_suggester import suggest_seo
+from app.routes import analyze
+app.include_router(analyze.router)
 
 
 app = FastAPI()
