@@ -5,10 +5,10 @@ from pydantic import BaseModel, HttpUrl
 from app.services.site_analyzer import analyze_site
 from app.services.seo_suggester import suggest_seo
 from app.routes import analyze
-app.include_router(analyze.router)
 
 
 app = FastAPI()
+app.include_router(analyze.router)
 
 
 class SiteRequest(BaseModel):
