@@ -4,7 +4,7 @@ export default function SEO() {
   const [result, setResult] = useState<string>("")
 
   useEffect(() => {
-    fetch("http://localhost:8000/seo", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/seo`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: localStorage.getItem("analysis")!

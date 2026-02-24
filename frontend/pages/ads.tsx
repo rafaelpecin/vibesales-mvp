@@ -4,7 +4,7 @@ export default function Ads() {
   const [ads, setAds] = useState("")
 
   useEffect(() => {
-    fetch("http://localhost:8000/ads", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/ads`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: localStorage.getItem("analysis")!
