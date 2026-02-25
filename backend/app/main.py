@@ -6,13 +6,14 @@ from pydantic import BaseModel, HttpUrl
 
 from app.services.site_analyzer import analyze_site
 from app.services.seo_suggester import suggest_seo
-from app.routes import analyze, seo, ads
+from app.routes import analyze, seo, ads, seo_suggestions
 
 
 app = FastAPI()
 app.include_router(analyze.router)
 app.include_router(seo.router)
 app.include_router(ads.router)
+app.include_router(seo_suggestions.router)
 
 
 app.add_middleware(
