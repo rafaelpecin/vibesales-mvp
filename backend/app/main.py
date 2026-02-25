@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, HttpUrl
 
 
@@ -11,6 +12,15 @@ app = FastAPI()
 app.include_router(analyze.router)
 app.include_router(seo.router)
 app.include_router(ads.router)
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 
 class SiteRequest(BaseModel):
