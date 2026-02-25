@@ -33,7 +33,8 @@ Return STRICT JSON in this format:
   }}
 ]
 """
-    return generate(prompt, max_tokens=800)
+    print(prompt)
+    return generate(prompt, max_tokens=1800)
 
 
 @router.post("/seo-suggestions")
@@ -41,6 +42,7 @@ def create_seo_suggestions(payload: dict):
     project_id = str(uuid.uuid4())
 
     suggestions = generate_seo_suggestions(payload)
+    print(suggestions)
 
     SEO_PROJECTS[project_id] = {
         "analysis": payload,

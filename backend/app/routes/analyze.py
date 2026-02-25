@@ -20,6 +20,8 @@ def analyze_site(payload: dict):
         description = meta.get("content", "")
 
     text = " ".join(p.get_text() for p in soup.find_all("p"))[:4000]
+    if not text:
+        text = " ".join(d.get_text() for d in soup.find_all("div"))[:4000]
 
     prompt = f"""
     Analyze this webpage and return JSON only with:
@@ -31,7 +33,13 @@ def analyze_site(payload: dict):
     {text}
     """
 
+    print("Prompt 'Analyze' Page:")
+    print(prompt)
     ai = generate(prompt)
+
+    ai = ai.replace("```json", '').replace("```", '')
+    print("Analyze AI Return:")
+    print(ai)
 
     return {
         "url": url,
