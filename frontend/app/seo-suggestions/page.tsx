@@ -15,7 +15,8 @@ export default function SEOSuggestions() {
   const router = useRouter()
 
   useEffect(() => {
-    const analysis = JSON.parse(localStorage.getItem("analysis") || "{}")
+    const analysis = JSON.parse(localStorage.getItem("analyze_result") || "{}")
+    console.log('getItem analyze_result: ', analysis)
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/seo-suggestions`, {
       method: "POST",

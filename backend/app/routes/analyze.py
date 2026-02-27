@@ -35,10 +35,15 @@ def analyze_site(payload: dict):
 
     print("Prompt 'Analyze' Page:")
     print(prompt)
-    ai = generate(prompt)
+    #ai = generate(prompt)
+    ai = """{
+  "primary_topic": "Real Estate",
+  "product_type": "Property Listings / Real Estate Services",
+  "language": "Portuguese"
+}"""
 
     ai = ai.replace("```json", '').replace("```", '')
-    print("Analyze AI Return:")
+    print("Analyze AI Returned:")
     print(ai)
 
     return {

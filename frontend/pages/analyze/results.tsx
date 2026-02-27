@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 export default function Results() {
+  const router = useRouter()
   const [data, setData] = useState<any>(null)
 
   useEffect(() => {
@@ -29,7 +31,12 @@ export default function Results() {
 
       <pre>{data.analysis}</pre>
 
-      <button onClick={() => location.href = "/seo"}>
+      <button
+        onClick={() => {
+          localStorage.setItem("analyze_result", JSON.stringify(data.analysis))
+          router.push("/seo")
+        }}
+      >
         Get SEO Suggestions
       </button>
 

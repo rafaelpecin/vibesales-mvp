@@ -24,9 +24,10 @@ export default function SeoSuggestionsPage() {
       .then((data) => setTopics(data.topics || []))
   }, [router])
 */
+/*
 useEffect(() => {
   const url = localStorage.getItem("url")
-  console.log("📌 Stored URL:", url)
+  console.log("Stored URL:", url)
 
   if (!url) {
     router.push("/")
@@ -39,18 +40,51 @@ useEffect(() => {
     body: JSON.stringify({ url }),
   })
     .then(async (res) => {
-      console.log("📡 Response status:", res.status)
+      console.log("Response status:", res.status)
       const json = await res.json()
-      console.log("📦 Response JSON:", json)
+      console.log("Response JSON:", json)
       return json
     })
     .then((data) => {
       setTopics(data.topics || [])
     })
     .catch((err) => {
-      console.error("❌ Fetch error:", err)
+      console.error("Fetch error:", err)
     })
   }, [router])
+  */
+ useEffect(() => {
+  const raw = localStorage.getItem("analyze_result")
+
+  if (!raw) {
+    console.error("No analyze result found")
+    router.push("/")
+    return
+  }
+
+  const analyzeResult = JSON.parse(raw)
+
+  console.log("Analyze result:", analyzeResult)
+  const j = JSON.stringify({
+      //url: analyzeResult.url,
+      product_type: analyzeResult.product_type,
+      primary_topic: analyzeResult.primary_topic,
+      language: analyzeResult.language,
+    })
+  console.log("Parsed analyzeResult: ", raw)
+
+  fetch(`${process.env.NEXT_PUBLIC_API_URL}/seo-suggestions`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: raw
+       //body: JSON.stringify({
+      //url: analyzeResult.url,
+      //product_type: analyzeResult.product_type,
+      //primary_topic: analyzeResult.primary_topic,
+      //language: analyzeResult.language,
+   //}),
+  })
+}, [router])
 
   return (
     <main className="p-6">

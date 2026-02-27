@@ -23,5 +23,7 @@ suggested_seo_improvements
 
 
 def suggest_seo(site_data: dict) -> str:
+    print("suggest_seo")
+    print(site_data)
     prompt = build_prompt(site_data)
     return generate(prompt)
