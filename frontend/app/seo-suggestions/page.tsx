@@ -15,17 +15,29 @@ export default function SEOSuggestions() {
   const router = useRouter()
 
   useEffect(() => {
-    const analysis = JSON.parse(localStorage.getItem("analyze_result") || "{}")
-    console.log('getItem analyze_result: ', analysis)
+    const raw = localStorage.getItem("analyze_result")
+    if (!raw) {
+      router.push("/")
+      return
+    }
+    const analysis = JSON.parse(raw)
+    if (!analysis?.product_type || !analysis?.primary_topic || !analysis?.language) {
+      router.push("/")
+      return
+    }
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/seo-suggestions`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(analysis)
     })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to get SEO suggestions")
+        return res.json()
+      })
       .then(data => setTopics(JSON.parse(data.suggestions)))
-  }, [])
+      .catch(() => router.push("/"))
+  }, [router])
 
   const toggle = (index: number) => {
     setSelected(prev =>

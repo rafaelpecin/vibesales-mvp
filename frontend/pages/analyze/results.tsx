@@ -33,8 +33,29 @@ export default function Results() {
 
       <button
         onClick={() => {
-          localStorage.setItem("analyze_result", JSON.stringify(data.analysis))
-          router.push("/seo")
+          try {
+            const analysisObj =
+              typeof data.analysis === "string"
+                ? JSON.parse(data.analysis)
+                : data.analysis
+            if (
+              analysisObj?.product_type &&
+              analysisObj?.primary_topic &&
+              analysisObj?.language
+            ) {
+              localStorage.setItem(
+                "analyze_result",
+                JSON.stringify(analysisObj)
+              )
+              router.push("/seo-suggestions")
+            } else {
+              alert(
+                "Analysis missing required fields (product_type, primary_topic, language). Please try again."
+              )
+            }
+          } catch (e) {
+            alert("Failed to parse analysis. Please try analyzing again.")
+          }
         }}
       >
         Get SEO Suggestions

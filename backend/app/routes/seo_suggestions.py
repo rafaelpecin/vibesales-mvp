@@ -1,11 +1,9 @@
 from fastapi import APIRouter
 from app.llm.provider import generate
 import uuid
-import json
 from pydantic import BaseModel
 
 class SeoSuggestionsRequest(BaseModel):
-    #url: str
     product_type: str
     primary_topic: str
     language: str
@@ -46,20 +44,14 @@ Return STRICT JSON in this format:
 
 
 @router.post("/seo-suggestions")
-def create_seo_suggestions(payload: str):
-    print("payload:")
-
-    j = json.loads(payload)
-    d = SeoSuggestionsRequest(**j)
-    print("payload:")
-    print(d)
+def create_seo_suggestions(payload: SeoSuggestionsRequest):
     project_id = str(uuid.uuid4())
 
-    suggestions = generate_seo_suggestions(d)
+    suggestions = generate_seo_suggestions(payload)
     print(suggestions)
 
     SEO_PROJECTS[project_id] = {
-        "analysis": d,
+        "analysis": payload,
         "suggestions": suggestions,
         "selected_topics": []
     }
