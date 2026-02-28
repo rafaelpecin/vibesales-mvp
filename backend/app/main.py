@@ -16,9 +16,13 @@ app.include_router(ads.router)
 app.include_router(seo_suggestions.router)
 
 
+_origins = ["http://localhost:3000"]
+if frontend_url := os.environ.get("FRONTEND_URL"):
+    _origins.append(frontend_url)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", os.environ.get("FRONTEND_URL")],
+    allow_origins=_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
